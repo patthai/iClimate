@@ -1,0 +1,46 @@
+//scratch note
+
+var toner = WE.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {});
+var terrain = WE.tileLayer('http://tile.stamen.com/terrain/{z}/{x}/{y}.png', {});
+//var watercolor = WE.tileLayer('http://tile.stamen.com/watercolor/{z}/{x}/{y}.png', {});
+//var openstreetmap = WE.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {});
+
+//var osmUrl = WE.tileLayer('http://{s}.tile.cloudmade.com/a7db5562d0cd4fe0a2d8983fbb3b5519/999/256/{z}/{x}/{y}.png', {});
+//var osmUrl = WE.tileLayer('http://{s}.tile.cloudmade.com/a7db5562d0cd4fe0a2d8983fbb3b5519/997/256/{z}/{x}/{y}.png', {});
+
+terrain.addTo(earth);
+toner.addTo(earth);
+
+
+
+earth.swith_map = function swith_map(x)
+{
+  toner.setOpacity(0);
+  terrain.setOpacity(0);
+
+if (x == 1){  toner.setOpacity(1); }
+else if (x == 2){ terrain.setOpacity(1);}
+
+}
+
+earth.swith_map(1);
+
+
+<button  class="hover" onclick="setPositionToEverest()">Everest</button>
+<button onclick="spin()">spin</button>
+<button onclick="stop_spin ()">Sspin</button>
+<button onclick="flyToJapan()">fly</button>
+
+<button onclick="earth.swith_map(1)">1</button>
+<button onclick="earth.swith_map(2)">2</button>
+
+
+<div class="card-content">
+  <button onclick="setPositionToEverest()">Everest</button>
+  <button onclick="spin()">spin</button>
+  <button onclick="stop_spin ()">Sspin</button>
+  <button onclick="flyToJapan()">fly</button>
+
+  <button onclick="earth.swith_map(1)">1</button>
+  <button onclick="earth.swith_map(2)">2</button>
+</div>

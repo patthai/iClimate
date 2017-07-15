@@ -1,155 +1,86 @@
-<html ng-app="LandUse6K">
-<link rel="stylesheet" href="css/vis.min.css">
-<link rel="stylesheet" href="css/additional_css.css">
-
-<header>
-
-	<!-- external library -->
-	<script src="js/jquery.min.js"></script>
-
-	<!-- sementic -->
-	<script src="Semantic-UI/semantic.min.js"></script>
-	<link rel="stylesheet" href="Semantic-UI/semantic.min.css">
-
-	<!-- reformat JSON from google sheet-->
-	<script src="js/load_and_reformat_json.js"></script>
-
-	<!-- project selection -->
-	<script src="js/project_selection.js">
-	</script>
-
-	<!-- Declaring datasoucre -->
-	<script>
-	var spreadsheetID = "1szAXNmStcBCYgF-Kxboj3yOarSCrHDFGu2zMsEQgL2o" ;
-	var select_project = 1;
-	</script>
-
-	<!-- table -->
-	<script src="js/table_initialize.js"></script>
-
-	<!-- description -->
-	<script src="js/load_description.js"></script>
-
-	<!-- earth -->
-	<script src="https://cesiumjs.org/Cesium/Build/Cesium/Cesium.js"></script>
-	<script src="js/earth_initialize.js"></script>
-
-	<!-- timeline -->
-	<script src="js/vis.min.js"></script>
-	<link rel="stylesheet" href="css/vis.min.css">
-	<script src="js/timeline.js"></script>
-
-
-	<!-- onload -->
-	<script src="js/on_load.js"></script>
-</header>
-
-
-<style> 
-		@import url(css/widgets_modified.css);
-		html, body, #cesiumContainer {
-          width: 100%; height: 90%; margin: 0; padding: 0;
-      }
-</style>
+<!DOCTYPE HTML>
+<html>
+  <head>
+		<link rel="stylesheet" type="text/css" href="css/home/main.css">
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+		<script src="js/home/home_init.js"></script>
+		<script src="js/home/home_function.js"></script>
+		<title>iClimate</title>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+ 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="materialize/css/materialize.min.css">
+		<link href="css/ionicons.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="css/animate.css">
+		<script src="materialize/js/materialize.min.js"></script>
+  </head>
 
 
 
+	<!-- navbar -->
+	<nav>
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo" style="padding-left: 20px">iClimate</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+				<li><a href="share.html">Share</a></li>
+				<li><a href="explore.html">Explore</a></li>
+				<li><a href="#modal1">Login</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="share.html">Share</a></li>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="#modal1">Login</a></li>
+      </ul>
+    </div>
 
 
-<body>
-		
-  		
-  			<div class="ui fixed grid" style="height: 100%;padding-top: 2">
+  </nav>
 
-				<image src ="images/logo.jpeg" style="height: 15%;">
-				<!-- --------- Main_tab--------- -->
-				<div class="ui top attached tabular menu" id="main_tab">
-					<a class="active item" data-tab="visualizer" data-vivaldi-spatnav-clickable="1" button onclick="load_ui(select_project)">Visualizer</a>
-					<a class="item" data-tab="editor" data-vivaldi-spatnav-clickable="1">Data Editor</a>
-				</div>
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Login</h4>
 
-				<!-- --------- Visualizer Tab --------- -->
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="icon_prefix" type="text" class="validate">
+          <label for="icon_prefix">User</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="icon_telephone" type="tel" class="validate">
+          <label for="icon_telephone">Password</label>
+        </div>
+      </div>
+    </form>
+  </div>
 
-				<div class="ui bottom attached active tab segment" data-tab="visualizer">
-					<div class="overflow_content_fullheight">
-						<!-- --------- Data-Table --------- -->
-						<div class="ui fixed grid" style="height: 100%;">
-							<div  class="eight wide column" style="padding-left: 24px;">
+    </div>
+    <div class="modal-footer">
+      <a href="share.html" class="modal-action modal-close waves-effect waves-green btn-flat">Sign In</a>
+    </div>
+  </div>
 
+<body onload="world()">
 
-
-								<!-- Project selection  -->
-								<div id="dropdown_project"></div>
-
-								<!-- timeline -->
-								<div id="timeline_div"></div>
-
-								<!--button -->
-								<div class="three ui buttons">
-									<button class="ui button" data-vivaldi-spatnav-clickable="1" button onclick="earth_initialize.load_earth_data()">Show all events</button>
-									<button class="ui button" data-vivaldi-spatnav-clickable="1" button onclick="earth_initialize.flyhome()">Eagle eyes</button>
-									<button class="ui button" data-vivaldi-spatnav-clickable="1" button onclick="earth_initialize.autospin()">Auto spin</button>
-								</div>
-
-
-								<!-- --------- TAB UI--------- -->
-								<div class="ui top attached tabular menu" id="data_tab">
-									<a class="active item" data-tab="partial_data" data-vivaldi-spatnav-clickable="1">Current event</a>
-									<a class="item" data-tab="all_data" data-vivaldi-spatnav-clickable="1">All events</a>
-								</div>
-
-
-								<div class="ui bottom attached active tab segment" data-tab="partial_data">
-
-									<!-- Description  -->
-									<image src ="images/text.jpeg" style="width: 100%;">
-									<div class="overflow_content" id="description_div">
-									</div>
-
-
-								</div>
-
-								<div class="ui bottom attached tab segment" data-tab="all_data">
-
-									<!-- Table  -->
-									<div  class="overflow_content"id="table_div"></div>
-
-
-								</div>
-
-							</div>
-
-							<!-- --------- Earth --------- -->
-							<div  class="eight wide column">
-								<div id="cesiumContainer"></div>
-							</div>
-						</div>
+					<div id="earth_div"  class="wrapper">
+							<div class="hover">
+                    <center><h2 style="color: rgb(255, 255, 255);">iClimate</h2></center>
+                    <center><h4 style="color: rgb(255, 255, 255);">Share your climate imagination</h4></center>
+                    <center><p style="color: rgb(255, 255, 255);">iClimate is the social media platform for sharing vision and speculation about the future of our planet. This project is developed at Arizona State University</p></center>
+                    <center><a href ="#modal1" class="waves-effect waves-light btn">Sign In</a></center>
+              </div>
 					</div>
-				</div>
-				<!-- --------- Editor Tab--------- -->
-
-				<div class="ui bottom attached tab segment" data-tab="editor">
-						<iframe width='100%' height='95%' frameborder='0' src='https://docs.google.com/spreadsheets/d/1szAXNmStcBCYgF-Kxboj3yOarSCrHDFGu2zMsEQgL2o/edit'></iframe>
-
-				</div>
-
-
-			</div>
-  		</div>
 
 </body>
 
-</html>
-
-
 <script>
-    	on_load();
-
- 		// Tab_1 UI
- 		$('#main_tab.menu .item').tab();
-        $('#data_tab.menu .item').tab();
+$(document).ready(function(){
+  // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+  $('.modal').modal();
+});
 
 </script>
-
-
-
+</html>
